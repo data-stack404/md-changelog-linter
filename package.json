@@ -11,10 +11,16 @@
     "prepare": "npm run build",
     "test": "node dist/cli.js CHANGELOG.md"
   },
-  "keywords": ["changelog", "linter", "keepachangelog", "markdown", "cli"],
+  "keywords": [
+    "changelog",
+    "linter",
+    "keepachangelog",
+    "markdown",
+    "cli"
+  ],
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^5.0.0",
-    "@types/node": "^20.0.0"
+    "@types/node": "^20.19.43",
+    "typescript": "^5.0.0"
   }
 }
