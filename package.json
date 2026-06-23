@@ -1,0 +1,20 @@
+{
+  "name": "md-changelog-linter",
+  "version": "1.0.0",
+  "description": "A linter for changelogs following the Keep a Changelog 2.0.0 specification",
+  "main": "dist/cli.js",
+  "bin": {
+    "changelog-lint": "bin/changelog-lint.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod +x bin/changelog-lint.js",
+    "prepare": "npm run build",
+    "test": "node dist/cli.js CHANGELOG.md"
+  },
+  "keywords": ["changelog", "linter", "keepachangelog", "markdown", "cli"],
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
