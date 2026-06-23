@@ -39,3 +39,9 @@ export interface ParsedChangelog {
   links: ParsedLink[];
   rawLines: string[];
 }
+
+export interface AppliedFix {
+  line: number;
+  rule: string;
+  message: string;
+}
