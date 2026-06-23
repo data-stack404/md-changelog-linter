@@ -10,6 +10,18 @@ const YELLOW = `${ESC}33m`;
 const GREEN  = `${ESC}32m`;
 const CYAN   = `${ESC}36m`;
 
+function sanitizeForTerminal(input: string): string {
+  return input
+    // Normalize whitespace to prevent multiline/log-forgery style output shaping
+    .replace(/[\r\n\t]+/g, ' ')
+    // Strip ANSI/VT100 escape sequences (OSC, CSI, and short ESC forms)
+    .replace(/\u001B\][^\u0007]*(?:\u0007|\u001B\\)/g, '')
+    .replace(/\u001B\[[0-?]*[ -/]*[@-~]/g, '')
+    .replace(/\u001B[@-_]/g, '')
+    // Remove remaining control characters (including DEL/C1 controls)
+    .replace(/[\u0000-\u001F\u007F-\u009F]/g, '');
+}
+
 function useColor(): boolean {
   // Respect the NO_COLOR convention (https://no-color.org/) and non-TTY output
   return process.stdout.isTTY === true && process.env['NO_COLOR'] === undefined;
@@ -24,15 +36,16 @@ function c(text: string, code: string): string {
  * @returns 0 when there are no errors, 1 when at least one error is present.
  */
 export function report(diagnostics: LintDiagnostic[], filePath: string): number {
+  const safeFilePath = sanitizeForTerminal(filePath);
   const errors   = diagnostics.filter(d => d.severity === 'error');
   const warnings = diagnostics.filter(d => d.severity === 'warning');
 
   if (diagnostics.length === 0) {
-    console.log(`${c(filePath, BOLD)}: ${c('✓ No issues found', GREEN)}`);
+    console.log(`${c(safeFilePath, BOLD)}: ${c('✓ No issues found', GREEN)}`);
     return 0;
   }
 
-  console.log(`\n${c(filePath, BOLD)}\n`);
+  console.log(`\n${c(safeFilePath, BOLD)}\n`);
 
   const sorted = [...diagnostics].sort((a, b) => a.line - b.line);
 
@@ -41,8 +54,9 @@ export function report(diagnostics: LintDiagnostic[], filePath: string): number 
     const severity = diag.severity === 'error'
       ? c('error  ', RED)
       : c('warning', YELLOW);
-    const rule = c(`[${diag.rule}]`, CYAN);
-    console.log(`  ${lineCol}  ${severity}  ${diag.message}  ${rule}`);
+    const rule = c(`[${sanitizeForTerminal(diag.rule)}]`, CYAN);
+    const message = sanitizeForTerminal(diag.message);
+    console.log(`  ${lineCol}  ${severity}  ${message}  ${rule}`);
   }
 
   console.log();
@@ -73,23 +87,25 @@ export function reportFixes(
   filePath: string,
   dryRun: boolean,
 ): number {
+  const safeFilePath = sanitizeForTerminal(filePath);
   const errors   = remainingDiagnostics.filter(d => d.severity === 'error');
   const warnings = remainingDiagnostics.filter(d => d.severity === 'warning');
 
   if (fixes.length === 0 && remainingDiagnostics.length === 0) {
-    console.log(`${c(filePath, BOLD)}: ${c('✓ No issues found', GREEN)}`);
+    console.log(`${c(safeFilePath, BOLD)}: ${c('✓ No issues found', GREEN)}`);
     return 0;
   }
 
-  console.log(`\n${c(filePath, BOLD)}\n`);
+  console.log(`\n${c(safeFilePath, BOLD)}\n`);
 
   const verb = dryRun ? 'would fix' : 'fixed    ';
 
   for (const fix of fixes) {
     const lineCol = c(`line ${String(fix.line).padStart(4)}`, DIM);
     const action  = c(verb, GREEN);
-    const rule    = c(`[${fix.rule}]`, CYAN);
-    console.log(`  ${lineCol}  ${action}  ${fix.message}  ${rule}`);
+    const rule    = c(`[${sanitizeForTerminal(fix.rule)}]`, CYAN);
+    const message = sanitizeForTerminal(fix.message);
+    console.log(`  ${lineCol}  ${action}  ${message}  ${rule}`);
   }
 
   if (fixes.length > 0 && remainingDiagnostics.length > 0) {
@@ -102,8 +118,9 @@ export function reportFixes(
     const severity = diag.severity === 'error'
       ? c('error  ', RED)
       : c('warning', YELLOW);
-    const rule = c(`[${diag.rule}]`, CYAN);
-    console.log(`  ${lineCol}  ${severity}  ${diag.message}  ${rule}`);
+    const rule = c(`[${sanitizeForTerminal(diag.rule)}]`, CYAN);
+    const message = sanitizeForTerminal(diag.message);
+    console.log(`  ${lineCol}  ${severity}  ${message}  ${rule}`);
   }
 
   console.log();
