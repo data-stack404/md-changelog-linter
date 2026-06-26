@@ -1,0 +1,1 @@
+{"version":3,"file":"fixer.d.ts","sourceRoot":"","sources":["../src/fixer.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,eAAe,EAAE,cAAc,EAAE,UAAU,EAAE,MAAM,SAAS,CAAC;AAYtE,MAAM,WAAW,SAAS;IACxB,KAAK,EAAE,MAAM,EAAE,CAAC;IAChB,KAAK,EAAE,UAAU,EAAE,CAAC;CACrB;AAED;;;;;;;;;;GAUG;AACH,wBAAgB,UAAU,CACxB,SAAS,EAAE,eAAe,EAC1B,WAAW,EAAE,cAAc,EAAE,GAC5B,SAAS,CA6FX"}
