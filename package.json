@@ -1,10 +1,15 @@
 {
   "name": "md-changelog-linter",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A linter for changelogs following the Keep a Changelog 2.0.0 specification",
   "main": "dist/cli.js",
+  "files": [
+    "bin/",
+    "dist/"
+  ],
   "bin": {
-    "changelog-lint": "bin/changelog-lint.js"
+    "changelog-lint": "bin/changelog-lint.js",
+    "md-changelog-lint": "bin/changelog-lint.js"
   },
   "scripts": {
     "build": "tsc && chmod +x bin/changelog-lint.js",
