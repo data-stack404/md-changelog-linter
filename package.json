@@ -1,6 +1,6 @@
 {
   "name": "md-changelog-linter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A linter for changelogs following the Keep a Changelog 2.0.0 specification",
   "main": "dist/cli.js",
   "bin": {
