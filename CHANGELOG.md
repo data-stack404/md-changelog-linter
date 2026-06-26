@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/2.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [1.1.1] - 2026-06-26
+
+### Added
+- Added `md-changelog-lint` as a second CLI binary alias, so the tool can now be invoked as either `changelog-lint` or `md-changelog-lint`.
+
+### Fixed
+- Restricted npm package contents to the `bin/` and `dist/` directories, preventing unintended source files from being included in published releases.
+
 ## [1.1.0] - 2026-06-26
 
 ### Added
@@ -27,5 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Colored terminal output with `NO_COLOR` support
 - `--no-warnings` flag to suppress warnings in CI pipelines
 
+[Unreleased]: https://github.com/data-stack404/md-changelog-linter/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/data-stack404/md-changelog-linter/releases/tag/v1.1.1
 [1.1.0]: https://github.com/data-stack404/md-changelog-linter/releases/tag/v1.1.0
 [1.0.0]: https://github.com/data-stack404/md-changelog-linter/releases/tag/v1.0.0
